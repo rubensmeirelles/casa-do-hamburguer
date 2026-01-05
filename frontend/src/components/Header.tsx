@@ -1,0 +1,19 @@
+import { Link } from "react-router";
+
+const Header = () => {
+  return (
+    <div>
+      <div className="bg-[#161410]">
+        <div className="mx-auto flex w-full items-center justify-between p-3 md:w-[737px]">
+          <img src="./logo.png" alt="" />
+          <Link to="/login">
+            <div className="flex h-[35px] w-[130px] cursor-pointer items-center justify-center rounded-sm bg-[#F2DAAC]">
+              Entrar
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Header;
