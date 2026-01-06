@@ -6,20 +6,42 @@ import { Link } from "react-router";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    console.log(data);
-    
+    try {
+      if (!email || !password) {
+        setError("E-mail e senha são obrigatórios");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.status === 400) {
+        setError("Usuário e senha são obrigatórios");
+      }
+
+      if (response.status === 404) {
+        setError("Credenciais inválidas");
+      }
+
+      if (response.status === 200) {
+        setError("");
+        const data = await response.json();
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   }
 
   return (
@@ -29,20 +51,21 @@ const Login = () => {
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <img src="./logo.png" alt="" className="mb-4" />
-        <Input
-          placeholder="E-mail"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          placeholder="Senha"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <p className="text-sm font-bold text-red-500">Credenciais inválidas!</p>
+        <div className="mb-3 flex flex-col gap-2">
+          <Input
+            placeholder="E-mail"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            placeholder="Senha"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <p className="text-sm font-bold text-red-500">{error}</p>
+        </div>
 
         <Button title="Login" />
         <Link to="/register" className="w-full">
