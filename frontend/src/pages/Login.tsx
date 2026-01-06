@@ -7,9 +7,19 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log({ email, password });
+
+    const response = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    console.log(data);
+    
   }
 
   return (
@@ -31,6 +41,9 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <p className="text-sm font-bold text-red-500">Credenciais inválidas!</p>
+
         <Button title="Login" />
         <Link to="/register" className="w-full">
           <Button title="Não tenho uma conta" variant="outline" />
