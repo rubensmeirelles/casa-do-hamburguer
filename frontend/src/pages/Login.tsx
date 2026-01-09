@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link } from "react-router";
@@ -26,6 +26,7 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include"
       });
 
       if (response.status === 400) {
