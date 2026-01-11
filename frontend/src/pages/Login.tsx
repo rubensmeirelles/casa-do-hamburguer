@@ -3,11 +3,15 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { setUser } = useContext(UserContext);
   
   const navigate = useNavigate();
 
@@ -53,6 +57,7 @@ const Login = () => {
         setError("");
         const data = await response.json();
         navigate("/");
+        setUser(data);
         console.log(data);
       }
     } catch (error) {
