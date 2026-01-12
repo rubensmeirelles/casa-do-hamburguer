@@ -3,12 +3,13 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Header from "./components/Header";
+import Pedidos from "./pages/Pedidos";
 
 const Layout = () => {
   return (
     <div className="flex min-h-screen flex-col bg-[#1E1A16]">
       <Header />
-      <Outlet /> 
+      <Outlet />
     </div>
   );
 };
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/pedidos",
+        element: <Pedidos />,
       },
     ],
   },
